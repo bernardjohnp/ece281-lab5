@@ -40,5 +40,3 @@ begin
         o_ones <= std_logic_vector(to_unsigned(decimal_value, 4));
     end process;
 end Behavioral;
-
-
