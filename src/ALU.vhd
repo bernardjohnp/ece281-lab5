@@ -54,8 +54,9 @@ begin
                 result_9bit <= RESIZE(A_signed, 9) + RESIZE(B_signed, 9);
                 w_result <= STD_LOGIC_VECTOR(result_9bit(7 downto 0));
                 w_flags(3) <= result_9bit(7); -- Negative
-                if result_9bit(7 downto 0) = "00000000" then
+                if result_9bit(7 downto 0) = "00000000" then 
                     w_flags(2) <= '1';
+                    else w_flags(2) <= '0';
                 end if;
                 w_flags(1) <= result_9bit(8); -- Carry
                 if i_A(7) = i_B(7) and w_result(7) /= i_A(7) then
@@ -66,8 +67,9 @@ begin
                 result_9bit <= RESIZE(A_signed, 9) - RESIZE(B_signed, 9);
                 w_result <= STD_LOGIC_VECTOR(result_9bit(7 downto 0));
                 w_flags(3) <= result_9bit(7);
-                if result_9bit(7 downto 0) = "00000000" then
+                if result_9bit(7 downto 0) = "00000000" then 
                     w_flags(2) <= '1';
+                    else w_flags(2) <= '0';
                 end if;
                 w_flags(1) <= result_9bit(8);
                 if i_A(7) /= i_B(7) and w_result(7) /= i_A(7) then
@@ -77,20 +79,27 @@ begin
             when "010" =>  -- AND
                 w_result <= i_A and i_B;
                 w_flags(3) <= w_result(7);
-                if w_result = "00000000" then
+                if w_result = "00000000" then 
                     w_flags(2) <= '1';
+                    else 
+                    w_flags(2) <= '0';
+                w_flags(1 downto 0) <= "00";
                 end if;
 
             when "011" =>  -- OR
                 w_result <= i_A or i_B;
                 w_flags(3) <= w_result(7);
-                if w_result = "00000000" then
+                if w_result = "00000000" then 
                     w_flags(2) <= '1';
+                    else 
+                    w_flags(2) <= '0';
+                    w_flags(1 downto 0) <= "00";
                 end if;
-
+            --FOR AND AND OR, CV ARE 0!
             when others =>
                 w_result <= (others => '0');
                 w_flags  <= (others => '0');
+                
         end case;
     end process;
 
